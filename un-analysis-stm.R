@@ -40,5 +40,19 @@ un_stm$meta$country <- as.factor(un_stm$meta$country)
 un_stm$vocab
 un_stm$meta
 
+# Use Lee and Mimno (2014) method to locate K: Spectral init, only one content covar allowed at a time
+# (1) Organization
+
+mimno_search_k <- stm(un_stm$documents, un_stm$vocab, K = 0, prevalence = ~country, content = ~ country, data = un_stm$meta, max.em.its = 200, seed = 1234, init.type = "Spectral")
+
+# Let's look at the top words
+# Word groupings per country
+
+labelTopics(mimno_search_k)
+
+plot(mimno_search_k,type = "summary", xlim=c(0,0.15))
+
+topicQuality(mimno_search_k, documents = un_stm$documents)
+
 
 save.image("un_stm_img.RData")
