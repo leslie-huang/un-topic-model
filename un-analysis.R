@@ -6,34 +6,42 @@ setwd("/Users/lesliehuang/un-analysis/")
 
 set.seed(1234)
 
-libraries <- c("foreign", "utils", "dplyr", "devtools", "quanteda", "ggplot2", "topicmodels", "stm", "lda", "LDAvis", "jsonlite", "stringi", "stmBrowser")
+libraries <- c("foreign", "utils", "dplyr", "plyr", "devtools", "quanteda", "ggplot2", "topicmodels", "lda", "ldatuning", "LDAvis", "stringi")
 lapply(libraries, require, character.only=TRUE)
 
-raw_df <- read.csv("../un-db/ungd-csv.csv", na.strings = c("", "NaN", "NA"), stringsAsFactors = FALSE)
+load("un_img_new_dfm.RData")
 
-df <- subset(raw_df, !is.na(text))
+#########################################
 
-un_corpus <- corpus(df$text, docnames = df$filename)
-docvars(un_corpus, field = c("country", "year")) <- c(df$country, df$year) 
+# set controls
+controls_tm <- list(
+  burnin = 1000,
+  iter = 4000,
+  thin = 500,
+  nstart = 5,
+  seed = 0:4,
+  best = TRUE
+)
 
-summary(un_corpus)
+num_cores <- max(parallel::detectCores() - 1, 1)
 
-un_dfm <- dfm(un_corpus, stem = TRUE, tolower = TRUE, remove_punct = TRUE, remove_numbers = TRUE, remove_url = TRUE, remove = stopwords("english"))
-
-un_dfm <- dfm_trim(un_dfm, min_docfreq = 0.005)
-# write.csv(un_dfm, file = "un_dfm.csv", fileEncoding = "UTF-8")
-
-# Choose k
-result <- FindTopicsNumber(un_dfm, topics = seq(20, 100, by = 20), metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"), mc.cores = 7L, verbose = TRUE)
-
-FindTopicsNumber_plot(result)
-
-result2 <- FindTopicsNumber(un_dfm, topics = seq(40, 80, by = 5), metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"), mc.cores = 7L, verbose = TRUE)
-
-result3 <- FindTopicsNumber(un_dfm, topics = seq(50, 64, by = 2), metrics = c("Griffiths2004", "CaoJuan2009", "Arun2010", "Deveaud2014"), mc.cores = 7L, verbose = TRUE)
-
-
+#########################################
 # Run the topic model
-model <- LDA(un_dfm, k = 58, control = list(seed = 1234))
 
-save.image("un_img.RData")
+# 50
+model_50 <- LDA(tm_dfm, k = 50, control = controls_tm)
+Topic <- topics(model_50, 1)
+Terms <- terms(model_50, 10)
+
+save.image("un_models65.RData")
+
+# 65
+model_65 <- LDA(tm_dfm, k = 65, control = controls_tm)
+
+save.image("un_models65.RData")
+
+# 58
+model_58 <- LDA(un_dfm, k = 58, control = list(seed = 1234))
+
+# 75
+model_75 <- LDA(un_dfm, k = 75, control = list(seed = 1234))

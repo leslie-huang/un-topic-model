@@ -54,5 +54,8 @@ plot(mimno_search_k,type = "summary", xlim=c(0,0.15))
 
 topicQuality(mimno_search_k, documents = un_stm$documents)
 
+# Run CTM
+un_ctm <- convert(un_dfm, to = "topicmodels", docvars = dfm_docvars)
+ctm_model <- CTM(un_ctm, k = 40)
 
 save.image("un_stm_img.RData")
