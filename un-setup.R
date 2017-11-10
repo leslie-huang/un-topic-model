@@ -1,6 +1,7 @@
 # Leslie Huang
 
 # Run this first to setup workspace with all necessary data
+# This produces un_base_workspace.RData with necessary tm and quanteda objects
 
 ### Set up the workspace
 rm(list=ls())
