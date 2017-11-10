@@ -1,4 +1,5 @@
 *.RData
 *.json
 *.csv
+*.tar.gz
 packrat/lib*/
