@@ -14,18 +14,6 @@ set.seed(1234)
 libraries <- c("foreign", "utils", "dplyr", "plyr", "ggplot2", "devtools", "quanteda", "stringi", "topicmodels", "ldatuning", "lda")
 lapply(libraries, require, character.only=TRUE)
 
-
-num_cores <- max(1, parallel::detectCores() - 1)
-
-controls_tm <- list(
-  burnin = 1000,
-  iter = 4000,
-  thin = 500,
-  nstart = 1,
-  seed = 0,
-  best = TRUE
-)
-
 perplexity_result_dfs <- (list = ls(pattern="^perplexity_results_"))
 
 combined_perplexity_results <- data.frame(matrix(NA, ncol = 10, nrow = length(perplexity_result_dfs)))

@@ -1,0 +1,20 @@
+WORKFLOW
+-------------
+
+un-setup.R
+ --> Creates un_base_workspace.RData
+
+un_base_workspace.RData 
+--> Used to run ldatuning Rscripts (WITH CONTROLS AND WITH SPARSITY) from batch_ldatuning directory run on HPC cluster --> Combined together into un_ldatuning_results.RData using combining_tuning.R
+
+--> Used to run single models for select k values (WITH CONTROLS AND WITH SPARSITY) from Rscripts in single_topic_models_with_controls_and_sparsity directory run on HPC cluster --> Combined together into un_models.RData
+
+--> Used to run ldatuning and models (WITHOUT CONTROLS) --> discarded
+
+--> Used to run k_fold_sets_setup.R to set up training/test sets for 10 fold cross validation --> Creates perplexity_k10_base.RData
+
+perplexity_k10_base.RData
+--> Used to run scripts to calculate held out perplexity from batch_kfold_perplexity directory --> Combined together using combine_10fold_perplexity_results.R into perplexity_kfold_combined.RData
+
+perplexity_kfold_combined.RData, un_models.RData, un_ldatuning_results.RData
+--> Combined together in finalize_k_optimization.R script to produce final workspace
