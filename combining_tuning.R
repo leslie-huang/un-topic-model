@@ -15,11 +15,7 @@ load("../un_tuning_combined.RData")
 
 results <- ls(pattern="^result_")
 
-load("/Users/lesliehuang/Desktop/un_findk1.RData")
-
-load("/Users/lesliehuang/Desktop/un_tuning.RData")
-
-result <- rbind(result, result4)
+result <- result_100
 
 for (r in results) {
   temp_df <- get(r)
@@ -28,8 +24,6 @@ for (r in results) {
 
 result <- unique(result)
 
-rm(model)
-rm(result4)
 rm(results)
 rm(r)
 rm(list = ls(pattern = "^result_"))

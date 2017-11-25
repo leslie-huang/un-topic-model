@@ -1,7 +1,7 @@
 #!/bin/sh
 #
 #SBATCH --verbose
-#SBATCH --job-name=r_job65_2
+#SBATCH --job-name=r_job75onestart
 #SBATCH --output=slurm_%j.out
 #SBATCH --error=slurm_%j.err
 #SBATCH --time=24:00:00
@@ -17,7 +17,7 @@ mkdir -p $RUNDIR
 
 echo $RUNDIR
 
-cp un-model65.R $RUNDIR
+cp un-model75onestart.R $RUNDIR
 
 cp un_base_workspace.RData $RUNDIR
 
@@ -27,6 +27,6 @@ cd $RUNDIR
 
 ls
 
-Rscript un-model65.R $RUNDIR
+Rscript un-model75onestart.R $RUNDIR
 
 exit

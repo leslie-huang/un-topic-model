@@ -28,37 +28,6 @@ dev.off()
 qplot(seq(40,90,1), combined_perplexity_results$mean_log, xlab = "Number of topics", ylab = "Mean of log held-out perplexity from 10-fold cross-validation") + geom_line() + ggtitle("Results from held-out perplexity from 10-fold cross-validation")
 ggsave("logperplexity_results.png", device = "png")
 
-# Now look at the results from selected models
-
-generate_wordlist <- function(model, num_words) {
-  terms <- terms(model, num_words) # matrix, rows = words 1:num_words, cols = topics
-  
-  t_terms <- t(terms)
-  
-  t_terms <- as.data.frame(t_terms)
-  return(t_terms)
-}
-
-terms_m50 <- generate_wordlist(model_50, 20)
-#write.csv(terms_m50, file = "terms_m50.csv")
-
-terms_m65 <- generate_wordlist(model_65, 20)
-#write.csv(terms_m65, file = "terms_m65.csv")
-
-
-terms_m75 <- generate_wordlist(model_75, 20)
-#write.csv(terms_m75, file = "terms_m75.csv")
-
-terms_m80 <- generate_wordlist(model_80, 20)
-#write.csv(terms_m80, file = "terms_m80.csv")
-
-# Get topic proportions over documents for K = 75
-topic_distr_over_docs <- model_75@gamma
-#write.csv(topic_distr_over_docs, file = "topic_distr_over_docs_75.csv")
-
-# Mean topic proportions
-mean_topic_distr <- colMeans(topic_distr_over_docs)
-#write.csv(list(mean_topic_distr), file="mean_topic_distr.csv")
 
 qplot(seq(1,75,1), mean_topic_distr, xlab = "Topic number", ylab = "Mean proportion of documents (0.01 = 1%)") + geom_point() + ggtitle("Mean topic distribution over documents with 75 topics")
 ggsave("topicdistr.png", device = "png")

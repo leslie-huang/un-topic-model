@@ -12,7 +12,7 @@ set.seed(1234)
 libraries <- c("foreign", "utils", "dplyr", "plyr", "devtools", "quanteda", "stringi")
 lapply(libraries, require, character.only=TRUE)
 
-raw_df <- read.csv("ungd-csv.csv", na.strings = c("", "NaN", "NA"), stringsAsFactors = FALSE)
+raw_df <- read.csv("../un-db/ungd-csv.csv", na.strings = c("", "NaN", "NA"), stringsAsFactors = FALSE)
 
 df_full <- subset(raw_df, !is.na(text))
 
@@ -21,6 +21,9 @@ gd_speeches <- subset(df_full, is.na(sess_type))
 gd_speeches <- dplyr::select(gd_speeches, c("ID", "country", "year", "speaker", "record_name", "text", "head_of_state", "speaker_notes", "filename"))
 
 gd_speeches <- unique(gd_speeches)
+
+# Delete the Zambia speech
+gd_speeches <- filter(gd_speeches, ID != "ID12325")
 
 # Just checking that the correct number of speeches are there
 tab <- plyr::count(gd_speeches, c("country"))
@@ -42,7 +45,7 @@ summary(un_corpus)
 un_dfm <- dfm(un_corpus, stem = TRUE, tolower = TRUE, remove_punct = TRUE, remove_numbers = TRUE, remove_separators = TRUE, remove_url = TRUE, remove = stopwords("english"))
 
 un_dfm <- dfm_trim(un_dfm, min_docfreq = 0.005, max_docfreq = .9)
-#write.csv(un_dfm, file = "un_dfm.csv", fileEncoding = "UTF-8")
+write.csv(un_dfm, file = "un_dfm.csv", fileEncoding = "UTF-8")
 
 # Write quanteda DFM to topicmodels DFM
 tm_dfm <- convert(un_dfm, to = "topicmodels")
