@@ -11,7 +11,7 @@ set.seed(1234)
 libraries <- c("foreign", "utils", "dplyr", "plyr", "devtools", "quanteda", "stringi", "topicmodels", "ldatuning", "lda")
 lapply(libraries, require, character.only=TRUE)
 
-load("../un_tuning_combined.RData")
+load("un_tuning_combined.RData")
 
 results <- ls(pattern="^result_")
 
@@ -22,7 +22,7 @@ for (r in results) {
   result <- rbind(result, temp_df)
 }
 
-result <- unique(result)
+ldatuning_results <- unique(result)
 
 rm(results)
 rm(r)

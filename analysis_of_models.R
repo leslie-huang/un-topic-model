@@ -40,8 +40,8 @@ terms_m80 <- generate_wordlist(model_80, 20)
 #write.csv(terms_m80, file = "terms_m80.csv")
 
 # Get topic proportions over documents for K = 80
-topic_distr_over_docs <- model_80@gamma
-write.csv(topic_distr_over_docs, file = "topic_distr_over_docs_80.csv")
+topic_distr_over_docs <- model_75@gamma
+write.csv(topic_distr_over_docs, file = "topic_distr_over_docs_75.csv")
 
 # Mean topic proportions
 mean_topic_distr <- colMeans(topic_distr_over_docs)
@@ -49,8 +49,8 @@ mean_topic_distr <- colMeans(topic_distr_over_docs)
 # Calculate SD
 sds <- apply(topic_distr_over_docs, 2, sd)
 
-write.csv(cbind(mean_topic_distr, sds), file="mean_topic_distr_80.csv")
+write.csv(cbind(mean_topic_distr, sds), file="mean_topic_distr_75.csv")
 
-write.csv(gd_speeches, file = "speeches_and_metadata_80.csv")
+write.csv(gd_speeches, file = "speeches_and_metadata_75.csv")
 
 save.image("analysis_of_models.RData")
