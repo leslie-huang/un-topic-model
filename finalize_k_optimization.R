@@ -36,7 +36,7 @@ dev.off()
 
 # Plot the results from 10-fold heldout perplexity
 qplot(seq(40,90,1), combined_perplexity_results$mean_log, xlab = "Number of topics", ylab = "Mean of log held-out perplexity") + geom_line() + ggtitle("Results from held-out perplexity from 10-fold cross-validation")
-ggsave("logperplexity_results.png", device = "png")
+ggsave("logperplexity_results.png", device = "png", units = "in", width = 7, height = 4)
 
 # Topic mean with confidence intervals
 
@@ -62,7 +62,7 @@ ggplot(summary_stats, aes(x = 1:75, y = mean)) +
   ylab("Mean proportion (out of 1.0)") + 
 geom_errorbar(data = summary_stats, aes(ymin = mean - se, ymax = mean + se), width = 0.2, position = pd) +
     geom_point(position = pd) + ggtitle("Mean topic distribution over documents, 95% CI")
-ggsave("topicdistr.png", device = "png")
+ggsave("topicdistr.png", device = "png", units = "in", width = 7, height = 4)
 
 # # old plot of just means
 # qplot(seq(1,75,1), mean_topic_distr, xlab = "Topic number", ylab = "Mean proportion (0.01 = 1%)") + geom_point() + ggtitle("Mean topic distribution over documents with 75 topics")
